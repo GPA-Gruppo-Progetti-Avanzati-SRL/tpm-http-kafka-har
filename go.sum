@@ -3,8 +3,8 @@ cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.63 h1:sLV95f5/vW6bqmdHYT7yom3qKgcDlTUorS4l7jSmp/4=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.63/go.mod h1:hbtm3YCpUtxlUitYymlOI35mara7CLVX+Ukyh+BuA3o=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.5 h1:TsZKpJw6Wp3n/t3UBUoXJCVJ7YA0KkuqWug5V/2s51s=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.5/go.mod h1:88tO3akDoeM6hmHzMJESdEjM4XdvjO8cuXNf9LR4AxM=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.6-RC1 h1:8qTxNgEPUIrFWPlBynznZzZ6Kk08d9JhOnCm8H33Z1M=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.6-RC1/go.mod h1:88tO3akDoeM6hmHzMJESdEjM4XdvjO8cuXNf9LR4AxM=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.1 h1:OUNMcvfHCNRu34nUBVDprTosglpi1HEKqYiN3mUGQl8=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.1/go.mod h1:8py1nxyXMjXpvSdnzhJG0pHmBWvX1th5vbEVf362HGY=
 github.com/actgardner/gogen-avro/v10 v10.1.0/go.mod h1:o+ybmVjEa27AAr35FRqU98DJu1fXES56uXniYFv4yDA=
