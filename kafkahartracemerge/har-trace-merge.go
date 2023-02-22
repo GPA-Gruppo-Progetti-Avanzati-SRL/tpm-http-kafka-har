@@ -63,6 +63,8 @@ func (b *harMergerImpl) Process(km *kafka.Message, span opentracing.Span) (tprod
 				log.Error().Err(err).Msg(semLogContext)
 				return tprod.Message{}, bamData, err
 			}
+
+			return tprod.Message{}, bamData, nil
 		} else {
 			log.Error().Err(err).Msg(semLogContext)
 			return tprod.Message{}, bamData, err
