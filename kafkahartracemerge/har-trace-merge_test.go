@@ -1,8 +1,8 @@
-package hartraceconsumer_test
+package kafkahartracemerge_test
 
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common/util/promutil"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har/hartraceconsumer"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har/kafkahartracemerge"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/kafkalks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod"
 	"github.com/opentracing/opentracing-go"
@@ -19,7 +19,7 @@ import (
 )
 
 var cfg kafkalks.Config
-var echoCfg hartraceconsumer.Config
+var echoCfg kafkahartracemerge.Config
 
 func TestMain(m *testing.M) {
 
@@ -55,7 +55,7 @@ func TestMain(m *testing.M) {
 		},
 	}
 
-	echoCfg = hartraceconsumer.Config{
+	echoCfg = kafkahartracemerge.Config{
 		TransformerProducerConfig: &tprod.TransformerProducerConfig{
 			Name:         "tp-echo",
 			TickInterval: time.Millisecond * 400,
@@ -150,7 +150,7 @@ func TestMain(m *testing.M) {
 				},
 			},
 		},
-		ProcessorConfig: &hartraceconsumer.ProcessorConfig{
+		ProcessorConfig: &kafkahartracemerge.ProcessorConfig{
 			CollectionId: "har-trace",
 		},
 	}
@@ -169,7 +169,7 @@ func TestConsumer(t *testing.T) {
 	require.NoError(t, err)
 
 	var wg sync.WaitGroup
-	tp, err := hartraceconsumer.NewConsumer(&echoCfg, &wg)
+	tp, err := kafkahartracemerge.NewConsumer(&echoCfg, &wg)
 	require.NoError(t, err)
 
 	tp.Start()
