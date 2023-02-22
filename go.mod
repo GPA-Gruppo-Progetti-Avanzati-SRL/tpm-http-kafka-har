@@ -3,9 +3,11 @@ module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har
 go 1.19
 
 require (
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.2.0
+	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.3
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.14
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.63
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.6-RC2
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.7
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.1
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/opentracing/opentracing-go v1.2.0
@@ -17,8 +19,6 @@ require (
 
 require (
 	github.com/Azure/azure-sdk-for-go v63.2.0+incompatible // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.2.0 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.3 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.0.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect

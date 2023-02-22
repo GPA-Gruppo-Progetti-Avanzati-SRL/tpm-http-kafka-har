@@ -47,8 +47,8 @@ github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.14 h1:7y4W8AYvwXY
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.14/go.mod h1:1syRNEUxAX2PhqJQ6v5MrhVHgEDT2CS/ngCmXVJ+Vak=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.63 h1:sLV95f5/vW6bqmdHYT7yom3qKgcDlTUorS4l7jSmp/4=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.63/go.mod h1:hbtm3YCpUtxlUitYymlOI35mara7CLVX+Ukyh+BuA3o=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.6-RC2 h1:pE4jkKB/jPx8QaUT0WMqhKLP+d+Mmjglvkkj1SpR6lI=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.6-RC2/go.mod h1:88tO3akDoeM6hmHzMJESdEjM4XdvjO8cuXNf9LR4AxM=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.7 h1:EZzkvpHjP7bwbjNweWF79Pj3L5mZ+AAAC/RMa0VYIis=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.7/go.mod h1:88tO3akDoeM6hmHzMJESdEjM4XdvjO8cuXNf9LR4AxM=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.1 h1:OUNMcvfHCNRu34nUBVDprTosglpi1HEKqYiN3mUGQl8=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.1/go.mod h1:8py1nxyXMjXpvSdnzhJG0pHmBWvX1th5vbEVf362HGY=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2 h1:5IcZpTvzydCQeHzK4Ef/D5rrSqwxob0t8PQPMybUNFM=
