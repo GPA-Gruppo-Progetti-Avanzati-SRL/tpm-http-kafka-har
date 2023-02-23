@@ -146,7 +146,7 @@ func TestMain(m *testing.M) {
 					Name:           "rtp-bconn-iso20022-in",
 					BrokerName:     "local",
 					MaxPollTimeout: 0,
-					TopicType:      "std",
+					TopicType:      tprod.TopicTypeStd,
 				},
 			},
 		},
