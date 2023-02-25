@@ -5,6 +5,7 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har/kafkahartracemerge"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/kafkalks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod/processor"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -146,7 +147,7 @@ func TestMain(m *testing.M) {
 					Name:           "rtp-bconn-iso20022-in",
 					BrokerName:     "local",
 					MaxPollTimeout: 0,
-					TopicType:      tprod.TopicTypeStd,
+					TopicType:      processor.TopicTypeStd,
 				},
 			},
 		},
