@@ -146,7 +146,7 @@ func (t *tracerImpl) StartSpan(opts ...hartracing.SpanOption) hartracing.Span {
 	}
 
 	oid := util.NewObjectId().String()
-	spanCtx := hartracing.SimpleSpanContext{LogId: oid, ParentId: oid, TraceId: oid}
+	spanCtx := hartracing.SimpleSpanContext{LogId: oid, ParentId: oid, TraceId: oid, Flag: hartracing.HARSpanFlagSampled}
 
 	if spanOpts.ParentContext != nil {
 		if ctxImpl, ok := spanOpts.ParentContext.(hartracing.SimpleSpanContext); ok {
