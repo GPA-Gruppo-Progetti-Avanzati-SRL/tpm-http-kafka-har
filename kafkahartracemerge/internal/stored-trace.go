@@ -11,10 +11,12 @@ import (
 )
 
 type StoredTrace struct {
-	Id    string      `yaml:"id,omitempty" mapstructure:"id,omitempty" json:"id,omitempty"`
-	Pkey  string      `yaml:"pkey,omitempty" mapstructure:"pkey" json:"pkey,omitempty"`
-	Trace *har.HAR    `yaml:"trace,omitempty" mapstructure:"trace" json:"trace,omitempty"`
-	ETag  azcore.ETag `yaml:"-" mapstructure:"-" json:"-"`
+	Id              string      `yaml:"id,omitempty" mapstructure:"id,omitempty" json:"id,omitempty"`
+	Pkey            string      `yaml:"pkey,omitempty" mapstructure:"pkey,omitempty" json:"pkey,omitempty"`
+	StartedDateTime string      `json:"startedDateTime" yaml:"startedDateTime" mapstructure:"startedDateTime"`
+	TTL             int64       `yaml:"ttl,omitempty" mapstructure:"ttl,omitempty" json:"ttl,omitempty"`
+	Trace           *har.HAR    `yaml:"trace,omitempty" mapstructure:"trace,omitempty" json:"trace,omitempty"`
+	ETag            azcore.ETag `yaml:"-" mapstructure:"-" json:"-"`
 }
 
 func (st *StoredTrace) MustToJson() []byte {
@@ -26,7 +28,7 @@ func (st *StoredTrace) MustToJson() []byte {
 	return b
 }
 
-func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, trace *har.HAR) (StoredTrace, error) {
+func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, traceTtl int64, trace *har.HAR) (StoredTrace, error) {
 
 	sctx, err := hartracing.ExtractSimpleSpanContextFromString(traceId)
 	if err != nil {
@@ -34,9 +36,11 @@ func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId 
 	}
 
 	st := StoredTrace{
-		Id:    sctx.LogId,
-		Pkey:  sctx.LogId,
-		Trace: trace,
+		Id:              sctx.LogId,
+		Pkey:            sctx.LogId,
+		StartedDateTime: trace.Log.FindEarliestStartedDateTime(),
+		Trace:           trace,
+		TTL:             traceTtl,
 	}
 
 	resp, err := client.CreateItem(ctx, azcosmos.NewPartitionKeyString(sctx.LogId), st.MustToJson(), nil)

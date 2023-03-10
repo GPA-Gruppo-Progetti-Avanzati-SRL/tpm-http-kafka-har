@@ -190,7 +190,7 @@ func TestEntity(t *testing.T) {
 }
 
 func executeTestEntity(t *testing.T, cfg *coslks.Config, container *azcosmos.ContainerClient, traceId string, trace *har.HAR) {
-	persistedTokenContext, err := internal.InsertTrace(context.Background(), container, traceId, trace)
+	persistedTokenContext, err := internal.InsertTrace(context.Background(), container, traceId, -1, trace)
 	require.NoError(t, err)
 	etag := persistedTokenContext.ETag
 	t.Log(etag)

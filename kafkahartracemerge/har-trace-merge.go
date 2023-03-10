@@ -11,6 +11,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rs/zerolog/log"
 	"sync"
+	"time"
 )
 
 const (
@@ -23,17 +24,24 @@ type Config struct {
 }
 
 type ProcessorConfig struct {
-	CollectionId string `yaml:"collection-id,omitempty" mapstructure:"collection-id,omitempty" json:"collection-id,omitempty"`
+	CollectionId string        `yaml:"collection-id,omitempty" mapstructure:"collection-id,omitempty" json:"collection-id,omitempty"`
+	TraceTTL     time.Duration `yaml:"trace-ttl,omitempty" mapstructure:"trace-ttl,omitempty" json:"trace-ttl,omitempty"`
 }
 
 type harMergerImpl struct {
 	tprod.TransformerProducer
-	cfg *Config
+	cfg      *Config
+	traceTTL int64
 }
 
 func NewConsumer(cfg *Config, wg *sync.WaitGroup) (tprod.TransformerProducer, error) {
 	var err error
-	b := harMergerImpl{cfg: cfg}
+
+	ttl := int64(-1)
+	if cfg.ProcessorConfig.TraceTTL != 0 {
+		ttl = int64(cfg.ProcessorConfig.TraceTTL)
+	}
+	b := harMergerImpl{cfg: cfg, traceTTL: ttl}
 	b.TransformerProducer, err = tprod.NewTransformerProducer(cfg.TransformerProducerConfig, wg, &b)
 	return &b, err
 }
@@ -63,7 +71,7 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 	storedTrace, err := internal.FindTraceById(context.Background(), cli, req.TraceId)
 	if err != nil {
 		if err == cosutil.EntityNotFound {
-			_, err = internal.InsertTrace(context.Background(), cli, req.TraceId, req.Har)
+			_, err = internal.InsertTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
 			if err != nil {
 				log.Error().Err(err).Msg(semLogContext)
 				return processor.Message{}, bamData, err
@@ -85,6 +93,8 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 		mergeResult, err = storedTrace.Trace.Merge(req.Har, harEntryCompare)
 	}
 	storedTrace.Trace = mergeResult
+	storedTrace.TTL = b.traceTTL
+	storedTrace.StartedDateTime = storedTrace.Trace.Log.FindEarliestStartedDateTime()
 	_, err = storedTrace.Replace(context.Background(), cli)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
