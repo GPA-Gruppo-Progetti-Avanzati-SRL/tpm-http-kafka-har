@@ -39,7 +39,7 @@ func NewConsumer(cfg *Config, wg *sync.WaitGroup) (tprod.TransformerProducer, er
 
 	ttl := int64(-1)
 	if cfg.ProcessorConfig.TraceTTL != 0 {
-		ttl = int64(cfg.ProcessorConfig.TraceTTL)
+		ttl = int64(cfg.ProcessorConfig.TraceTTL.Seconds())
 	}
 	b := harMergerImpl{cfg: cfg, traceTTL: ttl}
 	b.TransformerProducer, err = tprod.NewTransformerProducer(cfg.TransformerProducerConfig, wg, &b)
