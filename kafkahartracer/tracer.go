@@ -138,7 +138,7 @@ func (t *tracerImpl) Close() error {
 }
 
 func (t *tracerImpl) IsNil() bool {
-	return true
+	return false
 }
 
 func (t *tracerImpl) StartSpan(opts ...hartracing.SpanOption) hartracing.Span {
