@@ -8,6 +8,7 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common/cosmosdb/cosutil"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing"
+	"strings"
 )
 
 type StoredTrace struct {
@@ -28,6 +29,15 @@ func (st *StoredTrace) MustToJson() []byte {
 	return b
 }
 
+func NewPartitionKeyString(k string) azcosmos.PartitionKey {
+	pkey := k
+	if ndx := strings.Index(k, "-"); ndx > 0 { // is greater than zero because in the worst case don't want to get with a empty string pkey...
+		pkey = k[0:ndx]
+	}
+
+	return azcosmos.NewPartitionKeyString(pkey)
+}
+
 func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, traceTtl int64, trace *har.HAR) (StoredTrace, error) {
 
 	sctx, err := hartracing.ExtractSimpleSpanContextFromString(traceId)
@@ -43,7 +53,7 @@ func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId 
 		TTL:             traceTtl,
 	}
 
-	resp, err := client.CreateItem(ctx, azcosmos.NewPartitionKeyString(sctx.LogId), st.MustToJson(), nil)
+	resp, err := client.CreateItem(ctx, NewPartitionKeyString(sctx.LogId), st.MustToJson(), nil)
 	if err != nil {
 		return StoredTrace{}, cosutil.MapAzCoreError(err)
 	}
@@ -60,7 +70,7 @@ func DeleteTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId 
 		return false, err
 	}
 
-	_, err = client.DeleteItem(ctx, azcosmos.NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
+	_, err = client.DeleteItem(ctx, NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
 	if err != nil {
 		return false, cosutil.MapAzCoreError(err)
 	}
@@ -77,7 +87,7 @@ func FindTraceById(ctx context.Context, client *azcosmos.ContainerClient, traceI
 		return result, err
 	}
 
-	resp, err := client.ReadItem(ctx, azcosmos.NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
+	resp, err := client.ReadItem(ctx, NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
 	if err != nil {
 		return result, cosutil.MapAzCoreError(err)
 	}
