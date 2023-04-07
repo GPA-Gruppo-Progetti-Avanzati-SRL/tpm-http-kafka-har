@@ -64,7 +64,7 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 
 	cli, err := coslks.GetCosmosDbContainer("default", b.cfg.ProcessorConfig.CollectionId, false)
 	if err != nil {
-		log.Error().Err(err).Msg(semLogContext)
+		log.Error().Err(err).Str("collection-id", b.cfg.ProcessorConfig.CollectionId).Msg(semLogContext + " get cosmos-db container")
 		return processor.Message{}, bamData, err
 	}
 
@@ -73,13 +73,13 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 		if err == cosutil.EntityNotFound {
 			_, err = internal.InsertTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
 			if err != nil {
-				log.Error().Err(err).Msg(semLogContext)
+				log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " insert trace")
 				return processor.Message{}, bamData, err
 			}
 
 			return processor.Message{}, bamData, nil
 		} else {
-			log.Error().Err(err).Msg(semLogContext)
+			log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " entity not found")
 			return processor.Message{}, bamData, err
 		}
 	}
@@ -97,7 +97,7 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 	storedTrace.StartedDateTime = storedTrace.Trace.Log.FindEarliestStartedDateTime()
 	_, err = storedTrace.Replace(context.Background(), cli)
 	if err != nil {
-		log.Error().Err(err).Msg(semLogContext)
+		log.Error().Err(err).Msg(semLogContext + " replacing trace")
 		return processor.Message{}, bamData, err
 	}
 
