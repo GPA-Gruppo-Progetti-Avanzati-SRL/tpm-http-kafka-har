@@ -29,13 +29,13 @@ func (st *StoredTrace) MustToJson() []byte {
 	return b
 }
 
-func NewPartitionKeyString(k string) azcosmos.PartitionKey {
+func PKeyFromLogId(k string) string {
 	pkey := k
 	if ndx := strings.Index(k, "-"); ndx > 0 { // is greater than zero because in the worst case don't want to get with a empty string pkey...
 		pkey = k[0:ndx]
 	}
 
-	return azcosmos.NewPartitionKeyString(pkey)
+	return pkey
 }
 
 func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, traceTtl int64, trace *har.HAR) (StoredTrace, error) {
@@ -47,13 +47,13 @@ func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId 
 
 	st := StoredTrace{
 		Id:              sctx.LogId,
-		Pkey:            sctx.LogId,
+		Pkey:            PKeyFromLogId(sctx.LogId),
 		StartedDateTime: trace.Log.FindEarliestStartedDateTime(),
 		Trace:           trace,
 		TTL:             traceTtl,
 	}
 
-	resp, err := client.CreateItem(ctx, NewPartitionKeyString(sctx.LogId), st.MustToJson(), nil)
+	resp, err := client.CreateItem(ctx, azcosmos.NewPartitionKeyString(st.Pkey), st.MustToJson(), nil)
 	if err != nil {
 		return StoredTrace{}, cosutil.MapAzCoreError(err)
 	}
@@ -70,7 +70,7 @@ func DeleteTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId 
 		return false, err
 	}
 
-	_, err = client.DeleteItem(ctx, NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
+	_, err = client.DeleteItem(ctx, azcosmos.NewPartitionKeyString(PKeyFromLogId(sctx.LogId)), sctx.LogId, nil)
 	if err != nil {
 		return false, cosutil.MapAzCoreError(err)
 	}
@@ -87,7 +87,7 @@ func FindTraceById(ctx context.Context, client *azcosmos.ContainerClient, traceI
 		return result, err
 	}
 
-	resp, err := client.ReadItem(ctx, NewPartitionKeyString(sctx.LogId), sctx.LogId, nil)
+	resp, err := client.ReadItem(ctx, azcosmos.NewPartitionKeyString(PKeyFromLogId(sctx.LogId)), sctx.LogId, nil)
 	if err != nil {
 		return result, cosutil.MapAzCoreError(err)
 	}
