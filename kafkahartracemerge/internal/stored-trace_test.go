@@ -177,7 +177,7 @@ func TestEntity(t *testing.T) {
 	require.NotEmpty(t, cfg.Endpoint, "CosmosDb endpoint not set.... use env var LEAS_CAB_COSDB_ENDPOINT")
 	require.NotEmpty(t, cfg.AccountKey, "CosmosDb account-key not set.... use env var LEAS_CAB_COSDB_ACCTKEY")
 
-	lks, err := coslks.NewInstanceWithConfig(cfg)
+	lks, err := coslks.NewLinkedServiceWithConfig(cfg)
 	require.NoError(t, err)
 
 	c, err := lks.NewClient(false)

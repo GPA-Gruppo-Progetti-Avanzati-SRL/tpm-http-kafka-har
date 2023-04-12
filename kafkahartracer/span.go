@@ -18,7 +18,7 @@ func (hs *spanImpl) Finish() error {
 		log.Trace().Str("span-id", hs.Id()).Msg(semLogContext + " reporting span")
 		_ = hs.Tracer.(*tracerImpl).Report(hs)
 	} else {
-		log.Warn().Str("span-id", hs.Id()).Msg(semLogContext + " no Entries in span....")
+		log.Trace().Str("span-id", hs.Id()).Msg(semLogContext + " no entries in span....")
 	}
 
 	return nil
