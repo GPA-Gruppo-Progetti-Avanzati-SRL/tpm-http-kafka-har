@@ -45,8 +45,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.50 h1:BqGpu+puxQr58LXIix1VAOXRrO4ssp7z91I5YCbyEcE=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.50/go.mod h1:t+r3ILepUHLV6wXEx0pPusvd2R46Jy+jtzBvRCMuNds=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.94 h1:WfAGo8ky/a9lxSbzLSBCIjqxaUpl6aLpGI2nxVWfcxA=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.0.94/go.mod h1:WZLFgy+qbyanFBP25v+0WVvcqgYJHCeqsRmVSWXMC2o=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.1 h1:QCIjnTNzNlkw6qZQ3pmuuwv+xbTUUVBRXA4fVA1kncQ=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.1/go.mod h1:WZLFgy+qbyanFBP25v+0WVvcqgYJHCeqsRmVSWXMC2o=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.24 h1:yBwnFIQBQkT80UF59AtjHPohMwAUySitkjOMyOxAOLM=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.24/go.mod h1:hSNaFWfK1jK0gbRqNE/wLctEppC0TeF5f5YMFaIAuZk=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.17 h1:yuQWZIX1a+mYGp0CStlQEgdQ4H0AIzngNACH4Mt+0v4=
