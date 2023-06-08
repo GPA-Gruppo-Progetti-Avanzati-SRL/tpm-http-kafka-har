@@ -7,7 +7,6 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har/kafkahartracemerge/internal"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod/processor"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rs/zerolog/log"
 	"sync"
@@ -46,26 +45,26 @@ func NewConsumer(cfg *Config, wg *sync.WaitGroup) (tprod.TransformerProducer, er
 	return &b, err
 }
 
-func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.TransformerProducerProcessorOption) (processor.Message, processor.BAMData, error) {
+func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProducerProcessorOption) (tprod.Message, tprod.BAMData, error) {
 	const semLogContext = "har-trace-merge::process"
 
-	tprodOpts := processor.TransformerProducerOptions{}
+	tprodOpts := tprod.TransformerProducerOptions{}
 	for _, o := range opts {
 		o(&tprodOpts)
 	}
 
-	bamData := processor.BAMData{}
+	bamData := tprod.BAMData{}
 
 	req, err := newRequestIn(km, tprodOpts.Span)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
-		return processor.Message{}, bamData, err
+		return tprod.Message{}, bamData, err
 	}
 
 	cli, err := coslks.GetCosmosDbContainer("default", b.cfg.ProcessorConfig.CollectionId, false)
 	if err != nil {
 		log.Error().Err(err).Str("collection-id", b.cfg.ProcessorConfig.CollectionId).Msg(semLogContext + " get cosmos-db container")
-		return processor.Message{}, bamData, err
+		return tprod.Message{}, bamData, err
 	}
 
 	storedTrace, err := internal.FindTraceById(context.Background(), cli, req.TraceId)
@@ -74,13 +73,13 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 			_, err = internal.InsertTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
 			if err != nil {
 				log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " insert trace")
-				return processor.Message{}, bamData, err
+				return tprod.Message{}, bamData, err
 			}
 
-			return processor.Message{}, bamData, nil
+			return tprod.Message{}, bamData, nil
 		} else {
 			log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " entity not found")
-			return processor.Message{}, bamData, err
+			return tprod.Message{}, bamData, err
 		}
 	}
 
@@ -98,10 +97,10 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...processor.Transformer
 	_, err = storedTrace.Replace(context.Background(), cli)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext + " replacing trace")
-		return processor.Message{}, bamData, err
+		return tprod.Message{}, bamData, err
 	}
 
-	return processor.Message{}, bamData, nil
+	return tprod.Message{}, bamData, nil
 }
 
 func harEntryCompare(e1, e2 *har.Entry) bool {
