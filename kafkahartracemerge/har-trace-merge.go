@@ -45,7 +45,7 @@ func NewConsumer(cfg *Config, wg *sync.WaitGroup) (tprod.TransformerProducer, er
 	return &b, err
 }
 
-func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProducerProcessorOption) (tprod.Message, tprod.BAMData, error) {
+func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProducerProcessorOption) ([]tprod.Message, tprod.BAMData, error) {
 	const semLogContext = "har-trace-merge::process"
 
 	tprodOpts := tprod.TransformerProducerOptions{}
@@ -58,13 +58,13 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 	req, err := newRequestIn(km, tprodOpts.Span)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
-		return tprod.Message{}, bamData, err
+		return nil, bamData, err
 	}
 
 	cli, err := coslks.GetCosmosDbContainer("default", b.cfg.ProcessorConfig.CollectionId, false)
 	if err != nil {
 		log.Error().Err(err).Str("collection-id", b.cfg.ProcessorConfig.CollectionId).Msg(semLogContext + " get cosmos-db container")
-		return tprod.Message{}, bamData, err
+		return nil, bamData, err
 	}
 
 	storedTrace, err := internal.FindTraceById(context.Background(), cli, req.TraceId)
@@ -73,13 +73,13 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 			_, err = internal.InsertTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
 			if err != nil {
 				log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " insert trace")
-				return tprod.Message{}, bamData, err
+				return nil, bamData, err
 			}
 
-			return tprod.Message{}, bamData, nil
+			return nil, bamData, nil
 		} else {
 			log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext + " entity not found")
-			return tprod.Message{}, bamData, err
+			return nil, bamData, err
 		}
 	}
 
@@ -97,10 +97,10 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 	_, err = storedTrace.Replace(context.Background(), cli)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext + " replacing trace")
-		return tprod.Message{}, bamData, err
+		return nil, bamData, err
 	}
 
-	return tprod.Message{}, bamData, nil
+	return nil, bamData, nil
 }
 
 func harEntryCompare(e1, e2 *har.Entry) bool {
