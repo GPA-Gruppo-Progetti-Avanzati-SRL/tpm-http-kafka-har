@@ -45,12 +45,12 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.53 h1:1rhn2T+8SGWRkzsHdaIo1k7UX16DzxxVXkA7jFULLqg=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.53/go.mod h1:itajIP6uu0cPnkNRw6HaYt9Az1lro1JnRoFvTXjwTAw=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.3 h1:M7UYdIlu16uTDuYXMLDOM7Tp1nZw+jeCPgb8mAUY98I=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.3/go.mod h1:WZLFgy+qbyanFBP25v+0WVvcqgYJHCeqsRmVSWXMC2o=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.4 h1:rcKeCNtXSR5z0kuzrntk8IgCbvrABrjj0I3EnhONG44=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.4/go.mod h1:WZLFgy+qbyanFBP25v+0WVvcqgYJHCeqsRmVSWXMC2o=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.26 h1:KoqZD3SFg37EI4ZpCHMixRWnZ6qJGm1UO3OUQLmVTrw=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.26/go.mod h1:0P3O8FXDC2RudFGuQ/+XPMH/EnVrge+H3g57oD20n2o=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20-RC6 h1:PVXIkyvb2hmsaEMmyeqO0RS79T3h6WXgCPdg4vobUFQ=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20-RC6/go.mod h1:PwVp6oGIFQxG+uKzGrFxqnQoSSDrygMJ8ZDl80zcxBs=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20-RC8 h1:iE/k3S5iHgw/vCLRH28bQR2uOD7usTyMoabTHpS4CSw=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20-RC8/go.mod h1:v6HCfhvyA0KWMwGLmVArEaXwLcrwnb3jkBRfet83I74=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2 h1:5IcZpTvzydCQeHzK4Ef/D5rrSqwxob0t8PQPMybUNFM=
 github.com/actgardner/gogen-avro/v10 v10.1.0/go.mod h1:o+ybmVjEa27AAr35FRqU98DJu1fXES56uXniYFv4yDA=
 github.com/actgardner/gogen-avro/v10 v10.2.1/go.mod h1:QUhjeHPchheYmMDni/Nx7VB0RsT/ee8YIgGY/xpEQgQ=
