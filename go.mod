@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.4.0
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.5
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.53
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.54
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.5
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.26
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20-RCC

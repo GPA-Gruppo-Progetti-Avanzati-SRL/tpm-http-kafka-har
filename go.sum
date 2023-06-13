@@ -43,8 +43,8 @@ github.com/Azure/azure-sdk-for-go/sdk/internal v1.2.0/go.mod h1:eWRD7oawr1Mu1sLC
 github.com/AzureAD/microsoft-authentication-library-for-go v0.4.0 h1:WVsrXCnHlDDX8ls+tootqRE87/hL9S/g4ewig9RsD/c=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.53 h1:1rhn2T+8SGWRkzsHdaIo1k7UX16DzxxVXkA7jFULLqg=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.53/go.mod h1:itajIP6uu0cPnkNRw6HaYt9Az1lro1JnRoFvTXjwTAw=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.54 h1:XSpIum3cKNUsPBy9r3vbgt95ezzqVkH4N75dDKtqd+A=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.54/go.mod h1:W+iV5e5rLomr4ZZCpwDCsTNo3n6Ffeu4p6xCOVHdmCs=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.5 h1:EdkTQ8Krxw4wzjzEWKh27j2mO/rrlxBJoIgemim7W3E=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.5/go.mod h1:WZLFgy+qbyanFBP25v+0WVvcqgYJHCeqsRmVSWXMC2o=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.26 h1:KoqZD3SFg37EI4ZpCHMixRWnZ6qJGm1UO3OUQLmVTrw=
