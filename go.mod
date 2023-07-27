@@ -5,10 +5,10 @@ go 1.19
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.4.0
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.5
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.54
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.74
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.6
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.28
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.20
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.21
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/rs/zerolog v1.29.0
