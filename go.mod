@@ -8,7 +8,7 @@ require (
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.82
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.34
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.30
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.22
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.23
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/rs/zerolog v1.31.0
@@ -33,6 +33,7 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.46.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
+	github.com/stretchr/objx v0.5.1 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
