@@ -10,22 +10,11 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rs/zerolog/log"
 	"sync"
-	"time"
 )
 
 const (
 	KMContentType = "content-type"
 )
-
-type Config struct {
-	TransformerProducerConfig *tprod.TransformerProducerConfig `yaml:"t-prod,omitempty" mapstructure:"t-prod,omitempty" json:"t-prod,omitempty"`
-	ProcessorConfig           *ProcessorConfig                 `yaml:"process,omitempty" mapstructure:"process,omitempty" json:"process,omitempty"`
-}
-
-type ProcessorConfig struct {
-	CollectionId string        `yaml:"collection-id,omitempty" mapstructure:"collection-id,omitempty" json:"collection-id,omitempty"`
-	TraceTTL     time.Duration `yaml:"trace-ttl,omitempty" mapstructure:"trace-ttl,omitempty" json:"trace-ttl,omitempty"`
-}
 
 type harMergerImpl struct {
 	tprod.TransformerProducer
@@ -100,7 +89,24 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 		return nil, bamData, err
 	}
 
+	err = b.persistSelectedTraces(&req)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, bamData, err
+	}
+
 	return nil, bamData, nil
+}
+
+func (b *harMergerImpl) persistSelectedTraces(req *RequestIn) error {
+	const semLogContext = "har-trace-merge::persist-selected-traces"
+
+	// Should persist the trace.
+	if req.HasStatusCode(b.cfg.ProcessorConfig.StatusCodeList) {
+		log.Trace().Str("trace-id", req.TraceId).Interface("trace", req.Har).Msg(semLogContext)
+	}
+
+	return nil
 }
 
 func harEntryCompare(e1, e2 *har.Entry) bool {

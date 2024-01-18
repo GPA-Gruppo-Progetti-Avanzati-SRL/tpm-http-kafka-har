@@ -25,6 +25,20 @@ func (r *RequestIn) Header(hn string) string {
 	return ""
 }
 
+func (r *RequestIn) HasStatusCode(sts []int) bool {
+
+	for _, e := range r.Har.Log.Entries {
+		if e.Response != nil {
+			for _, st := range sts {
+				if st == e.Response.Status {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 func newRequestIn(km *kafka.Message, span opentracing.Span) (RequestIn, error) {
 
 	const semLogContext = "echo-blob::new-request-in"
