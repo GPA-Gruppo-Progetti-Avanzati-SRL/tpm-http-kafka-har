@@ -38,6 +38,32 @@ func PKeyFromLogId(k string) string {
 	return pkey
 }
 
+func InsertConspicuousTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, traceTtl int64, trace *har.HAR) (StoredTrace, error) {
+
+	sctx, err := hartracing.ExtractSimpleSpanContextFromString(traceId)
+	if err != nil {
+		return StoredTrace{}, err
+	}
+
+	const conspicuousTracesPKey = "conspicuous-hars"
+
+	st := StoredTrace{
+		Id:              sctx.LogId,
+		Pkey:            conspicuousTracesPKey,
+		StartedDateTime: trace.Log.FindEarliestStartedDateTime(),
+		Trace:           trace,
+		TTL:             traceTtl,
+	}
+
+	resp, err := client.CreateItem(ctx, azcosmos.NewPartitionKeyString(st.Pkey), st.MustToJson(), nil)
+	if err != nil {
+		return StoredTrace{}, cosutil.MapAzCoreError(err)
+	}
+
+	st.ETag = resp.ETag
+	return st, nil
+}
+
 func InsertTrace(ctx context.Context, client *azcosmos.ContainerClient, traceId string, traceTtl int64, trace *har.HAR) (StoredTrace, error) {
 
 	sctx, err := hartracing.ExtractSimpleSpanContextFromString(traceId)

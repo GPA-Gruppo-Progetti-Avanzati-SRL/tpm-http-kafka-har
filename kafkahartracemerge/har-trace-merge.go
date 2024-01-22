@@ -2,6 +2,7 @@ package kafkahartracemerge
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common/cosmosdb/coslks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common/cosmosdb/cosutil"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
@@ -89,7 +90,7 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 		return nil, bamData, err
 	}
 
-	err = b.persistSelectedTraces(&req)
+	err = b.persistSelectedTraces(cli, &req)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
 		return nil, bamData, err
@@ -98,12 +99,16 @@ func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProd
 	return nil, bamData, nil
 }
 
-func (b *harMergerImpl) persistSelectedTraces(req *RequestIn) error {
-	const semLogContext = "har-trace-merge::persist-selected-traces"
+func (b *harMergerImpl) persistSelectedTraces(cli *azcosmos.ContainerClient, req *RequestIn) error {
+	const semLogContext = "har-trace-merge::persist-conspicuous-traces"
 
 	// Should persist the trace.
-	if req.HasStatusCode(b.cfg.ProcessorConfig.StatusCodeList) {
+	if req.HasStatusCode(b.cfg.ProcessorConfig.ShortListedTraces.StatusCodeList) {
 		log.Trace().Str("trace-id", req.TraceId).Interface("trace", req.Har).Msg(semLogContext)
+		_, err := internal.InsertConspicuousTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
+		if err != nil {
+			log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext)
+		}
 	}
 
 	return nil
