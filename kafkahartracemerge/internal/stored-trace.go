@@ -45,7 +45,7 @@ func InsertConspicuousTrace(ctx context.Context, client *azcosmos.ContainerClien
 		return StoredTrace{}, err
 	}
 
-	const conspicuousTracesPKey = "conspicuous-hars"
+	const conspicuousTracesPKey = "prominent-hars"
 
 	st := StoredTrace{
 		Id:              sctx.LogId,

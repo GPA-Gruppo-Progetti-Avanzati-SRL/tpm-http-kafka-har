@@ -105,7 +105,12 @@ func (b *harMergerImpl) persistSelectedTraces(cli *azcosmos.ContainerClient, req
 	// Should persist the trace.
 	if req.HasStatusCode(b.cfg.ProcessorConfig.ShortListedTraces.StatusCodeList) {
 		log.Trace().Str("trace-id", req.TraceId).Interface("trace", req.Har).Msg(semLogContext)
-		_, err := internal.InsertConspicuousTrace(context.Background(), cli, req.TraceId, b.traceTTL, req.Har)
+
+		ttl := int64(-1)
+		if b.cfg.ProcessorConfig.ShortListedTraces.TraceTTL != 0 {
+			ttl = int64(b.cfg.ProcessorConfig.ShortListedTraces.TraceTTL)
+		}
+		_, err := internal.InsertConspicuousTrace(context.Background(), cli, req.TraceId, ttl, req.Har)
 		if err != nil {
 			log.Error().Err(err).Str("trace-id", req.TraceId).Msg(semLogContext)
 		}
