@@ -254,6 +254,10 @@ func (t *tracerImpl) processLoop() error {
 
 		if err := t.producer.Produce(km, nil); err != nil {
 			log.Error().Err(err).Msg("errors in producing message")
+			err = setMetrics(t.metricsGroup, t.topic, 500)
+			if err != nil {
+				log.Warn().Err(err).Msg(semLogContext)
+			}
 		}
 
 	}
