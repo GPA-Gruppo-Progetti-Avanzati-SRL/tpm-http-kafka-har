@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common/util/promutil"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing/factory"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing/harfactory"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/kafkalks"
 	"github.com/rs/zerolog/log"
 	"io"
@@ -22,7 +22,7 @@ const (
 
 func IsHarTracerTypeFromEnvSupported() bool {
 	const semLogContext = "har-tracing::is-type-from-env-supported"
-	trcType := factory.HarTracerTypeFromEnv()
+	trcType := harfactory.HarTracerTypeFromEnv()
 	if trcType == "" {
 		log.Info().Msgf(semLogContext+" env var %s not set", hartracing.HARTracerTypeEnvName)
 	}
@@ -39,7 +39,7 @@ func InitHarTracingFromEnv() (io.Closer, error) {
 	var closer io.Closer
 	var err error
 
-	trcType := factory.HarTracerTypeFromEnv()
+	trcType := harfactory.HarTracerTypeFromEnv()
 	if trcType == "" {
 		return closer, nil
 	}

@@ -15,12 +15,10 @@ github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.83 h1:Sp7/iQwqgoj
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.83/go.mod h1:ukjU/9YKWJSk6t3kZvjtD2Y+fIq3UfOUmjdwmkPTttE=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.34 h1:FfgwrmHIwwkBwTHyI4BnnbOzOMl67pwga8TyNR8vNP4=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.34/go.mod h1:tKUvwyMmO9MjzoqSPIMbmoYjc3o076vkpLfPj4UfXns=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.32 h1:mkiTYdG8oZNwbpzkcQazx1cahwiaPy8XxPSI6Qj2bv8=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.32/go.mod h1:SxnaLI1PuezUr+P6PiuDLmFNaSaRik4J0zfspvKOfXI=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.33 h1:2Mt044MfWOkvn02EULfDMde19hmbrYQy8bTBN6seTrQ=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.33/go.mod h1:SxnaLI1PuezUr+P6PiuDLmFNaSaRik4J0zfspvKOfXI=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.24 h1:O7rE8Hxe37lDrTPjjTtYGK+rrXPnNDsrcntpdL/6phk=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.24/go.mod h1:GdkF6K4LtNf39OmiFM+BrdfW0AZhrgbk1WwxiK8BiTc=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.26 h1:rcoDs//YTzIM8QxdTMtOusqdTIXbcRP8Hu2W+k4hygc=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.26/go.mod h1:akR25+xZ/zprxonvYE8DPBArQ94p1K9IoDhRHRRvZ/s=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2 h1:5IcZpTvzydCQeHzK4Ef/D5rrSqwxob0t8PQPMybUNFM=
 github.com/actgardner/gogen-avro/v10 v10.1.0/go.mod h1:o+ybmVjEa27AAr35FRqU98DJu1fXES56uXniYFv4yDA=
 github.com/actgardner/gogen-avro/v10 v10.2.1/go.mod h1:QUhjeHPchheYmMDni/Nx7VB0RsT/ee8YIgGY/xpEQgQ=
