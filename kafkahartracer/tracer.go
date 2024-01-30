@@ -20,10 +20,7 @@ import (
 )
 
 const (
-	semLogContextBase  = "kafka-har-tracer"
-	HarKafkaTracerType = "har-kafka-tracer"
-	BrokerNameEnvVar   = "HAR_KAFKA_BROKER_NAME"
-	TopicNameEnvVar    = "HAR_KAFKA_TOPIC_NAME"
+	semLogContextBase = "kafka-har-tracer"
 )
 
 type tracerImpl struct {
