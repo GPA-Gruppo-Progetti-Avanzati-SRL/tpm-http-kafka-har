@@ -7,10 +7,11 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.6
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.82
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.34
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.30
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.32
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.23
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/opentracing/opentracing-go v1.2.0
+	github.com/prometheus/client_golang v1.18.0
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.8.4
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
@@ -29,11 +30,9 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/prometheus/client_golang v1.18.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.46.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	github.com/stretchr/objx v0.5.1 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
