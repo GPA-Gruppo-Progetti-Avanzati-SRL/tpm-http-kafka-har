@@ -4,11 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common/util/promutil"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing/util"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/kafkalks"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/zerolog/log"
 	"io"
 	"os"
@@ -24,17 +27,19 @@ const (
 )
 
 type tracerImpl struct {
-	done     bool
-	lks      *kafkalks.LinkedService
-	producer *kafka.Producer
-	outCh    chan *har.HAR
-	topic    string
+	done         bool
+	lks          *kafkalks.LinkedService
+	producer     *kafka.Producer
+	outCh        chan *har.HAR
+	topic        string
+	metricsGroup *promutil.MetricsConfigReference
 }
 
 type tracerOpts struct {
-	brokerName string
-	lks        *kafkalks.LinkedService
-	topic      string
+	brokerName   string
+	lks          *kafkalks.LinkedService
+	topic        string
+	metricsGroup *promutil.MetricsConfigReference
 }
 
 type Option func(opts *tracerOpts)
@@ -58,6 +63,12 @@ func WithKafkaLinkedService(lks *kafkalks.LinkedService) Option {
 func WithTopic(t string) Option {
 	return func(opts *tracerOpts) {
 		opts.topic = t
+	}
+}
+
+func WithMetricsConfigReference(g *promutil.MetricsConfigReference) Option {
+	return func(opts *tracerOpts) {
+		opts.metricsGroup = g
 	}
 }
 
@@ -87,7 +98,7 @@ func NewTracer(opts ...Option) (hartracing.Tracer, io.Closer, error) {
 		return nil, nil, err
 	}
 
-	t := &tracerImpl{producer: producer, topic: trcOpts.topic, lks: trcOpts.lks, outCh: make(chan *har.HAR, 10)}
+	t := &tracerImpl{producer: producer, topic: trcOpts.topic, lks: trcOpts.lks, metricsGroup: trcOpts.metricsGroup, outCh: make(chan *har.HAR, 10)}
 	go t.processLoop()
 	go t.monitorProducerEvents(t.producer)
 	return t, t, nil
@@ -101,12 +112,21 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 	exitFromLoop := false
 	for e := range producer.Events() {
 
+		var err error
 		switch ev := e.(type) {
 		case *kafka.Message:
 			if ev.TopicPartition.Error != nil {
-				log.Info().Interface("event", ev).Msg(semLogContextBase + " delivery failed")
+				log.Error().Interface("event", ev).Msg(semLogContextBase + " delivery failed")
+				err = setMetrics(tp.metricsGroup, tp.topic, 500)
+				if err != nil {
+					log.Warn().Err(err).Msg(semLogContext)
+				}
 			} else {
 				log.Trace().Interface("partition", ev.TopicPartition).Msg(semLogContextBase + " message delivered")
+				err = setMetrics(tp.metricsGroup, tp.topic, 200)
+				if err != nil {
+					log.Warn().Err(err).Msg(semLogContext)
+				}
 			}
 		}
 
@@ -116,6 +136,33 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 	}
 
 	log.Info().Msg(semLogContext + " ...ended")
+}
+
+func setMetrics(cfg *promutil.MetricsConfigReference, topicName string, statusCode int) error {
+	const semLogContext = semLogContextBase + "::set-metrics"
+
+	if cfg != nil && cfg.IsEnabled() {
+
+		metricsLabels := prometheus.Labels{
+			"topic-name":  topicName,
+			"status-code": fmt.Sprint(statusCode),
+		}
+
+		g, err := promutil.GetGroup(cfg.GId)
+		if err != nil {
+			log.Error().Err(err).Msg(semLogContext)
+			return err
+		}
+
+		if cfg.IsCounterEnabled() {
+			err = g.SetMetricValueById(cfg.CounterId, 1, metricsLabels)
+			if err != nil {
+				log.Warn().Err(err).Msg(semLogContext)
+			}
+		}
+	}
+
+	return nil
 }
 
 func (t *tracerImpl) Close() error {
