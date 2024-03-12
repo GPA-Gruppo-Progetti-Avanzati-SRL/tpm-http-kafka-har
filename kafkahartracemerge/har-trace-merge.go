@@ -8,7 +8,6 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-kafka-har/kafkahartracemerge/internal"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rs/zerolog/log"
 	"sync"
 )
@@ -18,6 +17,7 @@ const (
 )
 
 type harMergerImpl struct {
+	tprod.UnimplementedTransformerProducerProcessor
 	tprod.TransformerProducer
 	cfg      *Config
 	traceTTL int64
@@ -35,17 +35,12 @@ func NewConsumer(cfg *Config, wg *sync.WaitGroup) (tprod.TransformerProducer, er
 	return &b, err
 }
 
-func (b *harMergerImpl) Process(km *kafka.Message, opts ...tprod.TransformerProducerProcessorOption) ([]tprod.Message, tprod.BAMData, error) {
+func (b *harMergerImpl) ProcessMessage(m tprod.Message) ([]tprod.Message, tprod.BAMData, error) {
 	const semLogContext = "har-trace-merge::process"
-
-	tprodOpts := tprod.TransformerProducerOptions{}
-	for _, o := range opts {
-		o(&tprodOpts)
-	}
 
 	bamData := tprod.BAMData{}
 
-	req, err := newRequestIn(km, tprodOpts.Span)
+	req, err := newRequestIn(m)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
 		return nil, bamData, err

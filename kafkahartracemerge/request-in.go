@@ -5,22 +5,20 @@ import (
 	"errors"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/har"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive/hartracing"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/opentracing/opentracing-go"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common/tprod"
 	"strings"
 )
 
 type RequestIn struct {
-	Span        opentracing.Span  `yaml:"-" mapstructure:"-" json:"-"`
-	ContentType string            `yaml:"content-type,omitempty" mapstructure:"content-type,omitempty" json:"content-type,omitempty"`
-	TraceId     string            `yaml:"trace-id,omitempty" mapstructure:"trace-id,omitempty" json:"trace-id,omitempty"`
-	Headers     map[string]string `yaml:"headers,omitempty" mapstructure:"headers,omitempty" json:"headers,omitempty"`
-	Har         *har.HAR          `yaml:"har,omitempty" mapstructure:"har,omitempty" json:"har,omitempty"`
+	msg         tprod.Message
+	ContentType string   `yaml:"content-type,omitempty" mapstructure:"content-type,omitempty" json:"content-type,omitempty"`
+	TraceId     string   `yaml:"trace-id,omitempty" mapstructure:"trace-id,omitempty" json:"trace-id,omitempty"`
+	Har         *har.HAR `yaml:"har,omitempty" mapstructure:"har,omitempty" json:"har,omitempty"`
 }
 
 func (r *RequestIn) Header(hn string) string {
-	if len(r.Headers) > 0 {
-		return r.Headers[hn]
+	if len(r.msg.Headers) > 0 {
+		return r.msg.Headers[hn]
 	}
 	return ""
 }
@@ -39,38 +37,56 @@ func (r *RequestIn) HasStatusCode(sts []int) bool {
 	return false
 }
 
-func newRequestIn(km *kafka.Message, span opentracing.Span) (RequestIn, error) {
+func newRequestIn(m tprod.Message) (RequestIn, error) {
 
 	const semLogContext = "echo-blob::new-request-in"
 
-	var req RequestIn
+	req := RequestIn{msg: m}
 	var err error
 
 	req.ContentType = "application/octet-stream"
-	headers := make(map[string]string)
-	for _, header := range km.Headers {
-		headers[header.Key] = string(header.Value)
-		switch header.Key {
-		case KMContentType:
-			req.ContentType = string(header.Value)
-			ndx := strings.Index(string(header.Value), ";")
-			if ndx > 0 {
-				req.ContentType = req.ContentType[ndx:]
-			}
-		case hartracing.HARTraceIdHeaderName:
-			req.TraceId = string(header.Value)
+	if hd, ok := m.Headers[hartracing.HARTraceIdHeaderName]; !ok {
+		req.TraceId = hd
+	}
+
+	var ct string
+	var ok bool
+	if ct, ok = m.Headers[KMContentType]; !ok {
+		ct = "application/octet-stream"
+	} else {
+		// remove the semicolon (if present to clean up the content type) to text/xml; charset=utf-8
+		ndx := strings.Index(ct, ";")
+		if ndx > 0 {
+			ct = ct[ndx:]
 		}
 	}
-	req.Headers = headers
+	req.ContentType = ct
+
+	/*
+		headers := make(map[string]string)
+		for _, header := range km.Headers {
+			headers[header.Key] = string(header.Value)
+			switch header.Key {
+			case KMContentType:
+				req.ContentType = string(header.Value)
+				ndx := strings.Index(string(header.Value), ";")
+				if ndx > 0 {
+					req.ContentType = req.ContentType[ndx:]
+				}
+			case hartracing.HARTraceIdHeaderName:
+				req.TraceId = string(header.Value)
+			}
+		}
+		req.Headers = headers
+	*/
 
 	var harLog har.HAR
-	err = json.Unmarshal(km.Value, &harLog)
+	err = json.Unmarshal(m.Body, &harLog)
 	if err != nil {
 		return req, err
 	}
 
 	req.Har = &harLog
-	req.Span = span
 
 	if req.TraceId == "" {
 		err = errors.New("har-trac-id missing from message")
@@ -78,8 +94,9 @@ func newRequestIn(km *kafka.Message, span opentracing.Span) (RequestIn, error) {
 	return req, err
 }
 
-func (r *RequestIn) Finish() {
-	if r.Span != nil {
-		r.Span.Finish()
+/*func (r *RequestIn) Finish() {
+	if r.msg.Span != nil {
+		r.msg.Span.Finish()
 	}
 }
+*/

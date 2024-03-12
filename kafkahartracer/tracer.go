@@ -113,7 +113,7 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 		switch ev := e.(type) {
 		case *kafka.Message:
 			if ev.TopicPartition.Error != nil {
-				log.Error().Interface("event", ev).Msg(semLogContextBase + " delivery failed")
+				log.Error().Err(ev.TopicPartition.Error).Interface("event", ev).Msg(semLogContextBase + " delivery failed")
 				err = setMetrics(tp.metricsGroup, tp.topic, 500)
 				if err != nil {
 					log.Warn().Err(err).Msg(semLogContext)
@@ -125,6 +125,8 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 					log.Warn().Err(err).Msg(semLogContext)
 				}
 			}
+		default:
+			log.Error().Msgf(semLogContextBase+" event received of type %T", ev)
 		}
 
 		if exitFromLoop {

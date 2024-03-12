@@ -6,13 +6,13 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.9.1
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v0.3.6
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.0.83
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.34
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.35
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.33
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.0.26
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.1.2
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/prometheus/client_golang v1.18.0
-	github.com/rs/zerolog v1.31.0
+	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.8.4
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible

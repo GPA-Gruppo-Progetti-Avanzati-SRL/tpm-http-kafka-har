@@ -21,6 +21,7 @@ import (
 
 var cfg kafkalks.Config
 var echoCfg kafkahartracemerge.Config
+var meticsCfg map[string]promutil.MetricGroupConfig
 
 func TestMain(m *testing.M) {
 
@@ -56,79 +57,90 @@ func TestMain(m *testing.M) {
 		},
 	}
 
+	meticsCfg = map[string]promutil.MetricGroupConfig{
+		"tp-har": promutil.MetricGroupConfig{
+			Namespace: "kafkahar",
+			Subsystem: "hartest",
+			Collectors: []promutil.MetricConfig{
+				{
+					Id:   "tprod-errors",
+					Name: "errors",
+					Help: "numero errori",
+					Labels: []promutil.MetricLabelConfig{
+						{
+							Name:         "ce_dataset",
+							DefaultValue: "DS-NA",
+						},
+					},
+					Type:    "counter",
+					Buckets: promutil.HistogramBucketConfig{},
+				},
+				{
+					Id:   "tprod-events",
+					Name: "messages",
+					Help: "numero messaggi",
+					Labels: []promutil.MetricLabelConfig{
+						{
+							Name:         "ce_dataset",
+							DefaultValue: "DS-NA",
+						},
+					},
+					Type:    "counter",
+					Buckets: promutil.HistogramBucketConfig{},
+				},
+				{
+					Id:   "tprod-events-to-topic",
+					Name: "messages_to_topic",
+					Help: "numero messaggi prodotti su topic",
+					Labels: []promutil.MetricLabelConfig{
+						{
+							Name:         "topic",
+							DefaultValue: "NA",
+						},
+						{
+							Name:         "topic_type",
+							DefaultValue: "NA",
+						},
+					},
+					Type:    "counter",
+					Buckets: promutil.HistogramBucketConfig{},
+				},
+				{
+					Id:   "tprod-duration",
+					Name: "duration",
+					Help: "durata lavorazione",
+					Labels: []promutil.MetricLabelConfig{
+						{
+							Name:         "ce_dataset",
+							DefaultValue: "DS-NA",
+						},
+					},
+					Type: "histogram",
+					Buckets: promutil.HistogramBucketConfig{
+						Type:        "linear",
+						Start:       0.5,
+						WidthFactor: 0.5,
+						Count:       10,
+					},
+				},
+			},
+		},
+	}
+
+	_, err := promutil.InitRegistry(meticsCfg)
+	if nil != err {
+		log.Fatal().Err(err).Msg("metrics registry initialization error")
+	}
+
 	echoCfg = kafkahartracemerge.Config{
 		TransformerProducerConfig: &tprod.TransformerProducerConfig{
-			Name:         "tp-echo",
+			Name:         "tp-har",
 			TickInterval: time.Millisecond * 400,
 			OnError:      tprod.OnErrorExit,
 			OnEof:        tprod.OnEofExit,
 			EofAfterN:    0,
-			Metrics: promutil.MetricGroupConfig{
-				Namespace: "kafkalks",
-				Subsystem: "echotest",
-				Collectors: []promutil.MetricConfig{
-					{
-						Id:   "_errors",
-						Name: "errors",
-						Help: "numero errori",
-						Labels: []promutil.MetricLabelConfig{
-							{
-								Name:         "ce_dataset",
-								DefaultValue: "DS-NA",
-							},
-						},
-						Type:    "counter",
-						Buckets: promutil.HistogramBucketConfig{},
-					},
-					{
-						Id:   "_messages",
-						Name: "messages",
-						Help: "numero messaggi",
-						Labels: []promutil.MetricLabelConfig{
-							{
-								Name:         "ce_dataset",
-								DefaultValue: "DS-NA",
-							},
-						},
-						Type:    "counter",
-						Buckets: promutil.HistogramBucketConfig{},
-					},
-					{
-						Id:   "_messages_to_topic",
-						Name: "messages_to_topic",
-						Help: "numero messaggi prodotti su topic",
-						Labels: []promutil.MetricLabelConfig{
-							{
-								Name:         "topic",
-								DefaultValue: "NA",
-							},
-							{
-								Name:         "topic_type",
-								DefaultValue: "NA",
-							},
-						},
-						Type:    "counter",
-						Buckets: promutil.HistogramBucketConfig{},
-					},
-					{
-						Id:   "_duration",
-						Name: "duration",
-						Help: "durata lavorazione",
-						Labels: []promutil.MetricLabelConfig{
-							{
-								Name:         "ce_dataset",
-								DefaultValue: "DS-NA",
-							},
-						},
-						Type: "histogram",
-						Buckets: promutil.HistogramBucketConfig{
-							Type:        "linear",
-							Start:       0.5,
-							WidthFactor: 0.5,
-							Count:       10,
-						},
-					},
-				},
+			RefMetrics: &promutil.MetricsConfigReference{
+				GId: "tp-har",
 			},
 			CommitMode: "manual", // auto, manual, tx
 			GroupId:    "rtp-bconn-rework-iso20022-dlt-gid9",
