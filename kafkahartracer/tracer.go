@@ -126,7 +126,7 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 				}
 			}
 		default:
-			log.Error().Msgf(semLogContextBase+" event received of type %T", ev)
+			log.Error().Interface("event", ev).Msgf(semLogContextBase+" event received of type %T", ev)
 		}
 
 		if exitFromLoop {
