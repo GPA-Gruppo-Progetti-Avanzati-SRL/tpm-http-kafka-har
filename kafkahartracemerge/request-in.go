@@ -62,6 +62,10 @@ func newRequestIn(m tprod.Message) (RequestIn, error) {
 	}
 	req.ContentType = ct
 
+	if trcId, ok := m.Headers[hartracing.HARTraceIdHeaderName]; ok {
+		req.TraceId = trcId
+	}
+
 	/*
 		headers := make(map[string]string)
 		for _, header := range km.Headers {
