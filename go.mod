@@ -8,7 +8,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v1.0.1
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.0
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.38-RC1
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.38
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.34-RC1
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.0-RC1
 	github.com/confluentinc/confluent-kafka-go/v2 v2.4.0
