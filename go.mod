@@ -7,10 +7,10 @@ toolchain go1.22.3
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v1.0.1
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.2
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.41
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.0.35
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.2
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.3
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.51
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.4
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.4
 	github.com/confluentinc/confluent-kafka-go/v2 v2.4.0
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/prometheus/client_golang v1.19.1
