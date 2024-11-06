@@ -9,15 +9,17 @@ import (
 	"github.com/rs/zerolog/log"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 )
 
 const (
-	HarKafkaTracerType    = "har-kafka-tracer"
-	BrokerNameEnvVar      = "HAR_KAFKA_BROKER_NAME"
-	TopicNameEnvVar       = "HAR_KAFKA_TOPIC_NAME"
-	MetricGroupIdEnvVar   = "HAR_KAFKA_METRIC_GROUP_ID"
-	MetricCounterIdEnvVar = "HAR_KAFKA_METRIC_COUNTER_ID"
+	HarKafkaTracerType             = "har-kafka-tracer"
+	BrokerNameEnvVar               = "HAR_KAFKA_BROKER_NAME"
+	TopicNameEnvVar                = "HAR_KAFKA_TOPIC_NAME"
+	MetricGroupIdEnvVar            = "HAR_KAFKA_METRIC_GROUP_ID"
+	MetricCounterIdEnvVar          = "HAR_KAFKA_METRIC_COUNTER_ID"
+	HarKafkaTracerMaxRetriesEnvVar = "HAR_KAFKA_TRACER_MAX_RETRIES"
 )
 
 func IsHarTracerTypeFromEnvSupported() bool {
@@ -61,6 +63,16 @@ func InitHarTracingFromEnv() (io.Closer, error) {
 			return nil, err
 		}
 
+		maxRetries := 0
+		maxRetriesEnvVar := os.Getenv(HarKafkaTracerMaxRetriesEnvVar)
+		if maxRetriesEnvVar != "" {
+			maxRetries, err = strconv.Atoi(maxRetriesEnvVar)
+			if err != nil {
+				log.Error().Err(err).Str(semLogLabelTracerType, trcType).Msgf(semLogContext)
+				return nil, err
+			}
+		}
+
 		lks, err := kafkalks.GetKafkaLinkedService(brokerName)
 		if err != nil {
 			return nil, err
@@ -81,7 +93,7 @@ func InitHarTracingFromEnv() (io.Closer, error) {
 		trc, closer, err = NewTracer(
 			WithKafkaLinkedService(lks),
 			WithTopic(topic),
-			WithMetricsConfigReference(&metricRef))
+			WithMetricsConfigReference(&metricRef), WithMaxRetires(maxRetries))
 		if err != nil {
 			return nil, err
 		}

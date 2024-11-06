@@ -30,6 +30,7 @@ type tracerImpl struct {
 	outCh        chan *har.HAR
 	topic        string
 	metricsGroup *promutil.MetricsConfigReference
+	maxRetries   int
 }
 
 type tracerOpts struct {
@@ -37,6 +38,7 @@ type tracerOpts struct {
 	lks          *kafkalks.LinkedService
 	topic        string
 	metricsGroup *promutil.MetricsConfigReference
+	maxRetries   int
 }
 
 type Option func(opts *tracerOpts)
@@ -60,6 +62,12 @@ func WithKafkaLinkedService(lks *kafkalks.LinkedService) Option {
 func WithTopic(t string) Option {
 	return func(opts *tracerOpts) {
 		opts.topic = t
+	}
+}
+
+func WithMaxRetires(n int) Option {
+	return func(opts *tracerOpts) {
+		opts.maxRetries = n
 	}
 }
 
@@ -95,7 +103,7 @@ func NewTracer(opts ...Option) (hartracing.Tracer, io.Closer, error) {
 		return nil, nil, err
 	}
 
-	t := &tracerImpl{producer: producer, topic: trcOpts.topic, lks: trcOpts.lks, metricsGroup: trcOpts.metricsGroup, outCh: make(chan *har.HAR, 10)}
+	t := &tracerImpl{producer: producer, topic: trcOpts.topic, lks: trcOpts.lks, metricsGroup: trcOpts.metricsGroup, maxRetries: trcOpts.maxRetries, outCh: make(chan *har.HAR, 10)}
 	go t.processLoop()
 	go t.monitorProducerEvents(t.producer)
 	return t, t, nil
@@ -117,6 +125,19 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 				err = setMetrics(tp.metricsGroup, tp.topic, 500)
 				if err != nil {
 					log.Warn().Err(err).Msg(semLogContext)
+				}
+
+				ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries)
+				if err != nil {
+					log.Error().Err(err).Msg(semLogContext)
+				}
+
+				if ok {
+					log.Info().Msg(semLogContext + " - redelivery")
+					err = setMetrics(tp.metricsGroup, tp.topic, 449)
+					if err != nil {
+						log.Warn().Err(err).Msg(semLogContext)
+					}
 				}
 			} else {
 				log.Trace().Interface("partition", ev.TopicPartition).Msg(semLogContextBase + " message delivered")
