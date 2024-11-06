@@ -145,6 +145,20 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 				if err != nil {
 					log.Warn().Err(err).Msg(semLogContext)
 				}
+
+				// BOF interim
+				ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries)
+				if err != nil {
+					log.Error().Err(err).Msg(semLogContext)
+				}
+				if ok {
+					log.Info().Msg(semLogContext + " - redelivery")
+					err = setMetrics(tp.metricsGroup, tp.topic, 449)
+					if err != nil {
+						log.Warn().Err(err).Msg(semLogContext)
+					}
+				}
+				// EOF interim
 			}
 		default:
 			log.Info().Interface("event", ev).Msgf(semLogContextBase+" event received of type %T", ev)
