@@ -363,7 +363,7 @@ func (t *tracerImpl) processLoop() error {
 			Value: []byte(h.Log.TraceId),
 		})
 
-		if err := t.producer.Produce(km, nil); err != nil {
+		if err := t.producer.Produce(km, t.deliveryChan); err != nil {
 			log.Error().Err(err).Msg("errors in producing message")
 			err = setMetrics(t.metricsGroup, t.topic, 500)
 			if err != nil {
