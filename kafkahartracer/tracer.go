@@ -31,7 +31,7 @@ type tracerImpl struct {
 	topic        string
 	metricsGroup *promutil.MetricsConfigReference
 	maxRetries   int
-	deliveryChan chan kafka.Event
+	// deliveryChan chan kafka.Event
 }
 
 type tracerOpts struct {
@@ -110,19 +110,18 @@ func NewTracer(opts ...Option) (hartracing.Tracer, io.Closer, error) {
 		metricsGroup: trcOpts.metricsGroup,
 		maxRetries:   trcOpts.maxRetries,
 		outCh:        make(chan *har.HAR, 10),
-		deliveryChan: make(chan kafka.Event)}
+		// deliveryChan: make(chan kafka.Event)}
+	}
 
 	go t.processLoop()
 	go t.monitorProducerEvents(t.producer)
 	return t, t, nil
 }
 
-func (tp *tracerImpl) monitorProducerEvents2(producer *kafka.Producer) {
+func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 
 	const semLogContext = semLogContextBase + "::events-monitor"
 	log.Info().Msg(semLogContext + " starting...")
-
-	deliveryChan := make(chan kafka.Event)
 
 	exitFromLoop := false
 	for e := range producer.Events() {
@@ -137,7 +136,7 @@ func (tp *tracerImpl) monitorProducerEvents2(producer *kafka.Producer) {
 					log.Warn().Err(err).Msg(semLogContext)
 				}
 
-				ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, deliveryChan)
+				ok, err := kafkalks.ReDeliveryMessage(producer, ev, kafkalks.WithRedeliveryMaxRetries(tp.maxRetries))
 				if err != nil {
 					log.Error().Err(err).Msg(semLogContext)
 				}
@@ -157,7 +156,7 @@ func (tp *tracerImpl) monitorProducerEvents2(producer *kafka.Producer) {
 				}
 
 				// BOF interim
-				ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, deliveryChan)
+				ok, err := kafkalks.ReDeliveryMessage(producer, ev, kafkalks.WithRedeliveryMaxRetries(tp.maxRetries))
 				if err != nil {
 					log.Error().Err(err).Msg(semLogContext)
 				}
@@ -182,69 +181,71 @@ func (tp *tracerImpl) monitorProducerEvents2(producer *kafka.Producer) {
 	log.Info().Msg(semLogContext + " ...ended")
 }
 
+/*
 func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 
-	const semLogContext = semLogContextBase + "::events-monitor"
-	var err error
+		const semLogContext = semLogContextBase + "::events-monitor"
+		var err error
 
-	log.Info().Msg(semLogContext + " starting...")
+		log.Info().Msg(semLogContext + " starting...")
 
-	for {
-		select {
-		case e, ok := <-tp.deliveryChan:
-			if !ok {
-				break
-			}
-			switch ev := e.(type) {
-			case *kafka.Message:
-				if ev.TopicPartition.Error != nil {
-					log.Error().Err(ev.TopicPartition.Error).Interface("event", ev).Msg(semLogContextBase + " delivery failed")
-					err = setMetrics(tp.metricsGroup, tp.topic, 500)
-					if err != nil {
-						log.Warn().Err(err).Msg(semLogContext)
-					}
-
-					ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, tp.deliveryChan)
-					if err != nil {
-						log.Error().Err(err).Msg(semLogContext)
-					}
-
-					if ok {
-						log.Info().Msg(semLogContext + " - redelivery")
-						err = setMetrics(tp.metricsGroup, tp.topic, 449)
-						if err != nil {
-							log.Warn().Err(err).Msg(semLogContext)
-						}
-					}
-				} else {
-					log.Trace().Interface("event", ev).Msg(semLogContextBase + " message delivered")
-					err = setMetrics(tp.metricsGroup, tp.topic, 200)
-					if err != nil {
-						log.Warn().Err(err).Msg(semLogContext)
-					}
-
-					// BOF interim
-					ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, tp.deliveryChan)
-					if err != nil {
-						log.Error().Err(err).Msg(semLogContext)
-					}
-					if ok {
-						log.Info().Msg(semLogContext + " - redelivery")
-						err = setMetrics(tp.metricsGroup, tp.topic, 449)
-						if err != nil {
-							log.Warn().Err(err).Msg(semLogContext)
-						}
-					}
-					// EOF interim
+		for {
+			select {
+			case e, ok := <-tp.deliveryChan:
+				if !ok {
+					break
 				}
-			default:
-				log.Info().Interface("event", ev).Msgf(semLogContextBase+" event received of type %T", ev)
+				switch ev := e.(type) {
+				case *kafka.Message:
+					if ev.TopicPartition.Error != nil {
+						log.Error().Err(ev.TopicPartition.Error).Interface("event", ev).Msg(semLogContextBase + " delivery failed")
+						err = setMetrics(tp.metricsGroup, tp.topic, 500)
+						if err != nil {
+							log.Warn().Err(err).Msg(semLogContext)
+						}
+
+						ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, tp.deliveryChan)
+						if err != nil {
+							log.Error().Err(err).Msg(semLogContext)
+						}
+
+						if ok {
+							log.Info().Msg(semLogContext + " - redelivery")
+							err = setMetrics(tp.metricsGroup, tp.topic, 449)
+							if err != nil {
+								log.Warn().Err(err).Msg(semLogContext)
+							}
+						}
+					} else {
+						log.Trace().Interface("event", ev).Msg(semLogContextBase + " message delivered")
+						err = setMetrics(tp.metricsGroup, tp.topic, 200)
+						if err != nil {
+							log.Warn().Err(err).Msg(semLogContext)
+						}
+
+						// BOF interim
+						ok, err := kafkalks.ReWorkMessage(producer, ev, tp.maxRetries, tp.deliveryChan)
+						if err != nil {
+							log.Error().Err(err).Msg(semLogContext)
+						}
+						if ok {
+							log.Info().Msg(semLogContext + " - redelivery")
+							err = setMetrics(tp.metricsGroup, tp.topic, 449)
+							if err != nil {
+								log.Warn().Err(err).Msg(semLogContext)
+							}
+						}
+						// EOF interim
+					}
+				default:
+					log.Info().Interface("event", ev).Msgf(semLogContextBase+" event received of type %T", ev)
+				}
 			}
 		}
-	}
 
-	log.Info().Msg(semLogContext + " ...ended")
-}
+		log.Info().Msg(semLogContext + " ...ended")
+	}
+*/
 
 func setMetrics(cfg *promutil.MetricsConfigReference, topicName string, statusCode int) error {
 	const semLogContext = semLogContextBase + "::set-metrics"
@@ -363,7 +364,7 @@ func (t *tracerImpl) processLoop() error {
 			Value: []byte(h.Log.TraceId),
 		})
 
-		if err := t.producer.Produce(km, t.deliveryChan); err != nil {
+		if err := t.producer.Produce(km, nil /* t.deliveryChan */); err != nil {
 			log.Error().Err(err).Msg("errors in producing message")
 			err = setMetrics(t.metricsGroup, t.topic, 500)
 			if err != nil {
