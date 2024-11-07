@@ -149,7 +149,7 @@ func (tp *tracerImpl) monitorProducerEvents(producer *kafka.Producer) {
 					}
 				}
 			} else {
-				log.Trace().Interface("event", ev).Msg(semLogContextBase + " message delivered")
+				log.Trace().Str("event-key", string(ev.Key)).Msg(semLogContextBase + " message delivered")
 				err = setMetrics(tp.metricsGroup, tp.topic, 200)
 				if err != nil {
 					log.Warn().Err(err).Msg(semLogContext)
