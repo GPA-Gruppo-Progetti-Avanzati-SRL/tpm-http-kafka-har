@@ -24,8 +24,8 @@ github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.66 h1:i3wbIbOiL+iYgA
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.66/go.mod h1:vnI1W77dpctWxMspokeoSVbGAOaU66mKfnCOyyoEYWQ=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.18 h1:ARbnAq3RvSvV4XzZKYjQVQNvD1VM5ngoXFk8af1/C4o=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.18/go.mod h1:XQy1Rc+B3p28WecZykjUo8iYnNadREBE5BE9KOMuVAI=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.30 h1:3yXNX3osFoGPvNw4JH3+rzVCxHIYn/HMGQq4trqhDYo=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.30/go.mod h1:tqFs+4vdrge37UdKePTJzMtDdiaV6pWKL0aEaFChENI=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.32 h1:Xtck2RxTDWUHNwyZ/DF/NbWJH0il4Y8ZdZ9DFuAlBLY=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.32/go.mod h1:XIeWQrRGKm34ZSTmSgPv8P9d2gUDCNyuRGDL85+8CmA=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2 h1:5IcZpTvzydCQeHzK4Ef/D5rrSqwxob0t8PQPMybUNFM=
 github.com/HdrHistogram/hdrhistogram-go v1.1.2/go.mod h1:yDgFjdqOqDEKOvasDdhWNXYg9BVp4O+o5f6V/ehm6Oo=
 github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
