@@ -8,10 +8,10 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v1.0.1
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.3
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.66
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.67
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.18
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.32
-	github.com/confluentinc/confluent-kafka-go/v2 v2.4.0
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.63-RC7
+	github.com/confluentinc/confluent-kafka-go/v2 v2.6.1
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/prometheus/client_golang v1.19.1
 	github.com/rs/zerolog v1.33.0
@@ -22,7 +22,7 @@ require (
 
 require (
 	github.com/Azure/azure-sdk-for-go v68.0.0+incompatible // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/internal v1.7.0 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/internal v1.8.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -36,9 +36,9 @@ require (
 	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	golang.org/x/net v0.24.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/net v0.29.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/text v0.18.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
