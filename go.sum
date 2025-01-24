@@ -18,10 +18,10 @@ github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 h1:UQHMgLO+TxOEl
 github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1/go.mod h1:xomTg63KZ2rFqZQzSB4Vz2SUXa1BpHTVz9L5PTmPC4E=
 github.com/AzureAD/microsoft-authentication-library-for-go v1.2.2 h1:XHOnouVk1mxXfQidrMEnLlPk9UMeRtyBTnEFtxkV0kU=
 github.com/AzureAD/microsoft-authentication-library-for-go v1.2.2/go.mod h1:wP83P5OoQ5p6ip3ScPr0BAq0BvuPAvacpEuSzyouqAI=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.3 h1:sUy9sswQN945fC+00YJ/WgaQGJxl8GIVwHXBMkNX78M=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.3/go.mod h1:b7iOXmbUsVWlACy00kIYmPiAkhO2p+Xg1ZBB0vL+q+I=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.71 h1:1tnpVWHosJecMFfAurZoN9iuuBqCFkUFwPkGxioYIDk=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.71/go.mod h1:vnI1W77dpctWxMspokeoSVbGAOaU66mKfnCOyyoEYWQ=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.4 h1:rrdnW7ogoZixoaHcoqdwBRIs07CQBY/TSLBaUg9fuAs=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.4/go.mod h1:R45Fwcd4Hd/h5Qonzay+ib1PYh4HbxgmNEjJN68jCCQ=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.73 h1:Sb9L4A6aqLgXJOT2iSn1+nRMWLhRoXQXm3KzcTY8xfc=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.73/go.mod h1:4WYfJ0LgWLu38TukgFrFN4/zLePQ1BhFkpH/k28zRlA=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.19-RC2 h1:RYeTiqlOwRdhiqGAwwCK9NJE/n3PuMXOCsbholMkq5g=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.19-RC2/go.mod h1:Y61VEki6xWiueq2h+9ISGtgoxpOJYmMdLtyfDQGHEcY=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.63-RC7 h1:rAWb1ONv65w1teR/FnU1d6yjOWfa7QOLTL76afBwZr8=
