@@ -8,7 +8,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v1.0.1
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.4
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.73
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.81
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.19
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.80
 	github.com/confluentinc/confluent-kafka-go/v2 v2.6.1
@@ -41,5 +41,6 @@ require (
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

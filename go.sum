@@ -20,8 +20,8 @@ github.com/AzureAD/microsoft-authentication-library-for-go v1.2.2 h1:XHOnouVk1mx
 github.com/AzureAD/microsoft-authentication-library-for-go v1.2.2/go.mod h1:wP83P5OoQ5p6ip3ScPr0BAq0BvuPAvacpEuSzyouqAI=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.4 h1:rrdnW7ogoZixoaHcoqdwBRIs07CQBY/TSLBaUg9fuAs=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.4/go.mod h1:R45Fwcd4Hd/h5Qonzay+ib1PYh4HbxgmNEjJN68jCCQ=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.73 h1:Sb9L4A6aqLgXJOT2iSn1+nRMWLhRoXQXm3KzcTY8xfc=
-github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.73/go.mod h1:4WYfJ0LgWLu38TukgFrFN4/zLePQ1BhFkpH/k28zRlA=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.81 h1:GH6d6pe+pZ8+HIUnLkyZgyfBNmcV5HDUClhJIHl3bB8=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.81/go.mod h1:4WYfJ0LgWLu38TukgFrFN4/zLePQ1BhFkpH/k28zRlA=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.19 h1:orhZDY8bYze16N7Dq3cGcMI/5csZ6IlWHl6gEoIMmSU=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.19/go.mod h1:q0Dv5QpnNBvM6iDrwMPuUZm0JRPMQz6JX4o6PeI24yk=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.80 h1:rGB8y9pgNyLRLAV66V2JzfV2hLHMvgSiVDZA/aHjrlE=
