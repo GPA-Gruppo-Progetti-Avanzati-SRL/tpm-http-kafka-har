@@ -10,7 +10,7 @@ require (
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.1.5
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.83
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.21
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.87
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.2.89
 	github.com/confluentinc/confluent-kafka-go/v2 v2.6.1
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/prometheus/client_golang v1.20.5
