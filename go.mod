@@ -7,7 +7,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos v1.4.2
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-az-common v0.2.0
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.93
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.26
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-http-archive v0.1.27
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-kafka-common v0.3.4
 	github.com/confluentinc/confluent-kafka-go/v2 v2.11.1
 	github.com/opentracing/opentracing-go v1.2.0
